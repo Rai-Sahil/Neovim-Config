@@ -12,17 +12,55 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     os.exit(1)
   end
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  { "rose-pine/neovim", name = "rose-pine" },
-	
+  { 
+    "rose-pine/neovim", 
+    name = "rose-pine",
+    config = function()
+      require('rose-pine').setup({
+        disable_background = true,
+        dark_variant = 'main',
+        highlight = {
+        }
+      })
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    end
+  },
+
+  -- Autopair
+  {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup({
+        check_ts = true,
+      })
+    end,
+  },
+
+
+  -- Treesitter
+{
+  'nvim-treesitter/nvim-treesitter',
+  build = ':TSUpdate',  -- Ensures that Treesitter parsers are updated automatically
+  config = function()
+    require'nvim-treesitter.configs'.setup {
+      ensure_installed = { 'go', 'vimdoc', 'lua', 'bash', 'json', 'html', 'css', 'javascript' }, -- Add more languages if needed
+      highlight = {
+        enable = true, -- Enable syntax highlighting
+      },
+    }
+  end
+},
+
 	-- Telescope
 	{
     		'nvim-telescope/telescope.nvim', tag = '0.1.8',
       		dependencies = { 'nvim-lua/plenary.nvim' }
-    	},
+  },
 	
 	-- File tree
 	{
@@ -39,9 +77,39 @@ require('lazy').setup({
 
 	-- Bufferline
 	{'akinsho/bufferline.nvim', version="*", dependencies = "nvim-tree/nvim-web-devicons" },
-	
-	-- LSP
-    -- LSP zero
+
+  -- Terminal inside neovim
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    config = function()
+      require("toggleterm").setup{
+        size = 15,
+        open_mapping = [[<c-\>]],
+        hide_numbers = true,
+        shade_filetypes = {},
+        shade_terminals = true,
+        shading_factor = '1',
+        start_in_insert = true,
+        insert_mappings = true,
+        terminal_mappings = true,
+        persist_size = true,
+        direction = 'horizontal', -- default direction
+        close_on_exit = true,
+        shell = vim.o.shell,
+        float_opts = {
+          border = 'curved',
+          winblend = 0,
+          highlights = {
+            border = "Normal",
+            background = "Normal",
+          }
+        }
+      }
+    end
+  },
+
+  -- LSP zero
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
@@ -173,8 +241,7 @@ require('lazy').setup({
         ensure_installed = {
           'pyright', -- py
           'gopls', -- go
-          'dlv', -- go
-          'goimports' -- go
+          'clangd', -- c
         },
         handlers = {
           lsp_zero.default_setup,
@@ -216,6 +283,5 @@ require('lazy').setup({
       },
     }
     end
-  }
-
+  },
 })

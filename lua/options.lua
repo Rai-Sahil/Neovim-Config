@@ -8,8 +8,11 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.list = false -- show tab whitespaces
 vim.opt.autoindent = true -- set auto-indentation
+vim.opt.smartindent = true
+vim.opt.wrap = true
 
 vim.opt.ignorecase = true -- Ignore case while searching
+
 vim.opt.hlsearch = false -- Do not highlight previous searches
 vim.opt.incsearch = true -- Highlight search as you type
 
@@ -17,6 +20,8 @@ vim.opt.termguicolors = true -- enable true colors
 
 vim.opt.scrolloff = 9 -- min number of lines to keep above and below the cursor
 vim.opt.sidescrolloff = 8 -- min number of columns to keep above and below the cursor
+
+vim.opt.updatetime = 50 -- Faster update time
 
 vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
   pattern = "*.py",
