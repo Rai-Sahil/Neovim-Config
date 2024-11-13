@@ -48,9 +48,25 @@ require('lazy').setup({
   build = ':TSUpdate',  -- Ensures that Treesitter parsers are updated automatically
   config = function()
     require'nvim-treesitter.configs'.setup {
-      ensure_installed = { 'go', 'vimdoc', 'lua', 'bash', 'json', 'html', 'css', 'javascript' }, -- Add more languages if needed
+      ensure_installed = { 'go', 'vimdoc', 'lua', 'bash', 'json', 'javascript', 'typescript' },
       highlight = {
         enable = true, -- Enable syntax highlighting
+        disable = { "comment" },
+      },
+      indent = {
+        enable = true,
+      },
+    }
+  end
+},
+
+-- Treesitter PLayground
+{
+  'nvim-treesitter/playground',
+  config = function()
+    require'nvim-treesitter.configs'.setup {
+      playground = {
+        enable = true,
       },
     }
   end
@@ -58,8 +74,8 @@ require('lazy').setup({
 
 	-- Telescope
 	{
-    		'nvim-telescope/telescope.nvim', tag = '0.1.8',
-      		dependencies = { 'nvim-lua/plenary.nvim' }
+    'nvim-telescope/telescope.nvim', tag = '0.1.8',
+    dependencies = { 'nvim-lua/plenary.nvim' }
   },
 	
 	-- File tree
@@ -215,6 +231,28 @@ require('lazy').setup({
     end
   },
 
+  -- Comment Telescope
+  {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {
+        signs = true, -- show icons in the sign column
+        keywords = {
+          TODO = { icon = " ", color = "info" },
+          FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+          HACK = { icon = " ", color = "warning" },
+          PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+          WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+        },
+        highlight = {
+          multiline = false,
+        },
+      }
+    end
+  },
+
+
   -- LSP
   {
     'neovim/nvim-lspconfig',
@@ -242,6 +280,8 @@ require('lazy').setup({
           'pyright', -- py
           'gopls', -- go
           'clangd', -- c
+          'vtsls', -- javascript
+
         },
         handlers = {
           lsp_zero.default_setup,
