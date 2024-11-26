@@ -4,3 +4,5 @@ require("plugins.lazy")
 require("plugins.keymaps")
 require("plugins.options")
 
+-- Configs
+require("plugins.config.fugitive")
