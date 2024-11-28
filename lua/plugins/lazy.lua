@@ -43,34 +43,22 @@ require('lazy').setup({
 
 
   -- Treesitter
-{
-  'nvim-treesitter/nvim-treesitter',
-  build = ':TSUpdate',  -- Ensures that Treesitter parsers are updated automatically
-  config = function()
-    require'nvim-treesitter.configs'.setup {
-      ensure_installed = { 'go', 'vimdoc', 'lua', 'bash', 'json', 'javascript', 'typescript' },
-      highlight = {
-        enable = true, -- Enable syntax highlighting
-        disable = { "comment" },
-      },
-      indent = {
-        enable = true,
-      },
-    }
-  end
-},
-
--- Treesitter PLayground
-{
-  'nvim-treesitter/playground',
-  config = function()
-    require'nvim-treesitter.configs'.setup {
-      playground = {
-        enable = true,
-      },
-    }
-  end
-},
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',  -- Ensures that Treesitter parsers are updated automatically
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+        ensure_installed = { 'go', 'vimdoc', 'lua', 'bash', 'json', 'javascript', 'typescript' },
+        highlight = {
+          enable = true, -- Enable syntax highlighting
+          disable = { "comment" },
+        },
+        indent = {
+          enable = true,
+        },
+      }
+    end
+  },
 
 	-- Telescope
 	{
@@ -125,24 +113,6 @@ require('lazy').setup({
     end
   },
 
-  -- LSP zero
-  {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
-    lazy = true,
-    config = false,
-    init = function()
-      -- Disable automatic setup, we are doing it manually
-      vim.g.lsp_zero_extend_cmp = 0
-      vim.g.lsp_zero_extend_lspconfig = 0
-    end,
-  },
-  {
-    'williamboman/mason.nvim',
-    lazy = false,
-    config = true,
-  },
-
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
@@ -183,28 +153,41 @@ require('lazy').setup({
     end
   },
 
-  -- lazy.nvim
+  -- Treesitter PLayground
   {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- add any options here
-    },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
+    'nvim-treesitter/playground',
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+        playground = {
+          enable = true,
+        },
       }
+    end
   },
 
-  -- Git blame
+  -- See all the errors together.
   {
-    'tpope/vim-fugitive',
+  "folke/trouble.nvim",
+  opts = {}, -- for default options, refer to the configuration section for custom setup.
+  cmd = "Trouble",
+  keys = {
+    {
+      "<leader>er",
+      "<cmd>Trouble diagnostics toggle<cr>",
+      desc = "Diagnostics (Trouble)",
+    },
+    {
+      "<leader>mp",
+      "<cmd>Trouble symbols toggle focus=false<cr>",
+      desc = "Symbols (Trouble)",
+    },
+    {
+      "<leader>dr",
+      "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+      desc = "LSP Definitions / references / ... (Trouble)",
+    },
+    },
   },
-
       -- LSP zero
   {
     'VonHeikemen/lsp-zero.nvim',
@@ -273,7 +256,6 @@ require('lazy').setup({
       }
     end
   },
-
 
   -- LSP
   {
