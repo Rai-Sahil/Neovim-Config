@@ -1,5 +1,16 @@
 vim.cmd("colorscheme rose-pine-main") -- colorscheme
 
+
+  -- Use matchadd to highlight @param
+  vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+      pattern = "*",
+      callback = function()
+          vim.fn.matchadd('JSDoc', '@param')
+          vim.fn.matchadd('JSDoc', '@returns')
+          vim.fn.matchadd('JSDocType', '{[^}]*}')
+      end
+  })
+
 function ColorMyGoLang()
   vim.cmd("highlight String guifg=#C7ADA6")  -- String literal color C7ADA6
   vim.cmd("highlight Keyword guifg=#7C887F")  -- Keyword (func, defer, interface...) color
@@ -14,21 +25,11 @@ function ColorMyGoLang()
   vim.cmd("highlight @keyword.repeat guifg=#7C887F")  -- Replace with your preferred color
 end
 
-function ColorMyWebDev()
+local function ColorMyWebDev()
   vim.cmd("highlight @type.builtin gui=none")
 
   vim.cmd('highlight JSDoc guifg=#31748F')
   vim.cmd('highlight JSDocType guifg=#9CCFD8')
-
-  -- Use matchadd to highlight @param
-  vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-      pattern = "*",
-      callback = function()
-          vim.fn.matchadd('JSDoc', '@param')
-          vim.fn.matchadd('JSDoc', '@returns')
-          vim.fn.matchadd('JSDocType', '{[^}]*}')
-      end
-  })
 end
 
 -- Colortheme changes for go file
@@ -39,8 +40,8 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Colortheme changes for go file
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript" },  -- Only match Go files
-  callback = ColorMyWebDev
+  pattern = { "javascript", "typescript" },  -- Only match TS/JS files
+  callback = ColorMyWebDev,
 })
 
 vim.cmd("highlight @variable gui=none") -- variable should not be italic
