@@ -41,7 +41,6 @@ require('lazy').setup({
     end,
   },
 
-
   -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter',
@@ -113,35 +112,6 @@ require('lazy').setup({
     end
   },
 
-  -- Autocompletion
-  {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
-    dependencies = {
-      {'L3MON4D3/LuaSnip'},
-    },
-    config = function()
-      -- Here is where you configure the autocompletion settings.
-      local lsp_zero = require('lsp-zero')
-      lsp_zero.extend_cmp()
-
-      -- And you can configure cmp even more, if you want to.
-      local cmp = require('cmp')
-      local cmp_action = lsp_zero.cmp_action()
-
-      cmp.setup({
-        formatting = lsp_zero.cmp_format({details = true}),
-        mapping = cmp.mapping.preset.insert({
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-d>'] = cmp.mapping.scroll_docs(4),
-          ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-          ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-        })
-      })
-    end
-  },
-
   -- Save and load buffers automatically while reopening
   {
     'rmagatti/auto-session',
@@ -153,42 +123,7 @@ require('lazy').setup({
     end
   },
 
-  -- Treesitter PLayground
-  {
-    'nvim-treesitter/playground',
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        playground = {
-          enable = true,
-        },
-      }
-    end
-  },
-
-  -- See all the errors together.
-  {
-  "folke/trouble.nvim",
-  opts = {}, -- for default options, refer to the configuration section for custom setup.
-  cmd = "Trouble",
-  keys = {
-    {
-      "<leader>er",
-      "<cmd>Trouble diagnostics toggle<cr>",
-      desc = "Diagnostics (Trouble)",
-    },
-    {
-      "<leader>mp",
-      "<cmd>Trouble symbols toggle focus=false<cr>",
-      desc = "Symbols (Trouble)",
-    },
-    {
-      "<leader>dr",
-      "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-      desc = "LSP Definitions / references / ... (Trouble)",
-    },
-    },
-  },
-      -- LSP zero
+  -- LSP zero
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
@@ -296,18 +231,6 @@ require('lazy').setup({
           end,
         }
       })
-
-      -- Python environment
-      local util = require("lspconfig/util")
-      local path = util.path
-      require('lspconfig').pyright.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        before_init = function(_, config)
-          default_venv_path = path.join(vim.env.HOME, "virtualenvs", "nvim-venv", "bin", "python")
-          config.settings.python.pythonPath = default_venv_path
-        end,
-      }
 
       -- Golang enviroment
       require('lspconfig').gopls.setup {
