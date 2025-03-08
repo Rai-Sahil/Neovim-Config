@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
 }) -- python formatting
 
 vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
-  pattern = {"*.js", "*.html", "*.css", "*.lua"},
+  pattern = {"*.js", "*.jsx", "*.tsx", "*.html", "*.css", "*.lua"},
   callback = function()
     vim.opt.tabstop = 2
     vim.opt.softtabstop = 2

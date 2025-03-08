@@ -16,24 +16,35 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  { 
-    "rose-pine/neovim", 
+  {
+    "rose-pine/neovim",
     name = "rose-pine",
+    groups = {
+        background = "#000000", -- True black background
+        panel = "#101010", -- Slightly lighter for contrast
+    },
+    highlight_groups = {
+        Normal = { bg = "#000000" },
+        NormalNC = { bg = "#000000" },
+        FloatBorder = { bg = "#000000", fg = "#2a2a2a" },
+    },
     config = function()
       require('rose-pine').setup({
-        disable_background = true,
-        dark_variant = 'main',
-        highlight = {
-        }
+        disable_background = false,
+        variant = 'main',
       })
+
+      -- Set transparency for Normal and Floating windows
       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+  
     end
   },
-
   -- Autopair
   {
     "windwp/nvim-autopairs",
+    event = "InsertEnter",
     config = function()
       require("nvim-autopairs").setup({
         check_ts = true,
@@ -41,16 +52,24 @@ require('lazy').setup({
     end,
   },
 
+  --Co-pilot
+  {
+      "github/copilot.vim"
+  },
+
   -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',  -- Ensures that Treesitter parsers are updated automatically
+    run = ':TSUpdate',  -- Ensures that Treesitter parsers are updated automatically
     config = function()
       require'nvim-treesitter.configs'.setup {
-        ensure_installed = { 'go', 'vimdoc', 'lua', 'bash', 'json', 'javascript', 'typescript' },
+        ensure_installed = { 'asm', 'go', 'html', 'lua', 'bash', 'json', 'javascript', 'typescript', 'python'},
+        sync_install = false,
+        auto_install = true,
+
         highlight = {
           enable = true, -- Enable syntax highlighting
-          disable = { "comment" },
+          additional_vim_regex_highlighting = false,
         },
         indent = {
           enable = true,
@@ -59,12 +78,16 @@ require('lazy').setup({
     end
   },
 
+  {
+    'nvim-treesitter/playground'
+  },
+
 	-- Telescope
 	{
     'nvim-telescope/telescope.nvim', tag = '0.1.8',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
-	
+
 	-- File tree
 	{
 		"nvim-tree/nvim-tree.lua",
@@ -79,7 +102,11 @@ require('lazy').setup({
 	},
 
 	-- Bufferline
-	{'akinsho/bufferline.nvim', version="*", dependencies = "nvim-tree/nvim-web-devicons" },
+	{
+    'akinsho/bufferline.nvim',
+    version="*",
+    dependencies = "nvim-tree/nvim-web-devicons",
+  },
 
   -- Terminal inside neovim
   {
@@ -104,8 +131,8 @@ require('lazy').setup({
           border = 'curved',
           winblend = 0,
           highlights = {
-            border = "Normal",
             background = "Normal",
+            border = "Normal"
           }
         }
       }
@@ -220,6 +247,7 @@ require('lazy').setup({
           'gopls', -- go
           'clangd', -- c
           'vtsls', -- javascript
+          'ast_grep' -- jsx
 
         },
         handlers = {

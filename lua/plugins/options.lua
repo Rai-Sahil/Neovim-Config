@@ -1,6 +1,5 @@
 vim.cmd("colorscheme rose-pine-main") -- colorscheme
 
-
   -- Use matchadd to highlight @param
   vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
       pattern = "*",
@@ -11,19 +10,15 @@ vim.cmd("colorscheme rose-pine-main") -- colorscheme
       end
   })
 
-function ColorMyGoLang()
-  vim.cmd("highlight String guifg=#C7ADA6")  -- String literal color C7ADA6
-  vim.cmd("highlight Keyword guifg=#7C887F")  -- Keyword (func, defer, interface...) color
-  vim.cmd("highlight Function guifg=#7C887F")
-  vim.cmd("highlight @type.builtin guifg=#C7D1C9")  -- Replace with your preferred col
-  vim.cmd("highlight @type guifg=#C7D1C9")  -- Replace with your preferred color
-  vim.cmd("highlight @keyword.import guifg=#7C887F")  -- Replace with your preferred color
-  vim.cmd("highlight @keyword.return guifg=#7C887F")  -- Replace with your preferred color
-  vim.cmd("highlight @keyword.conditional guifg=#7C887F")  -- Replace with your preferred color
-  vim.cmd("highlight @keyword.conditional.ternary guifg=#7C887F")  -- Replace with your preferred color
-  vim.cmd("highlight @keyword.exception guifg=#7C887F")  -- Replace with your preferred color
-  vim.cmd("highlight @keyword.repeat guifg=#7C887F")  -- Replace with your preferred color
-end
+vim.cmd [[
+  highlight Comment cterm=NONE gui=NONE
+  highlight Keyword cterm=NONE gui=NONE
+  highlight String cterm=NONE gui=NONE
+  highlight Function cterm=NONE gui=NONE
+  highlight Type cterm=NONE gui=NONE
+  highlight Statement cterm=NONE gui=NONE
+  highlight Identifier cterm=NONE gui=NONE
+]]
 
 local function ColorMyWebDev()
   vim.cmd("highlight @type.builtin gui=none")
@@ -34,21 +29,19 @@ end
 
 -- Colortheme changes for go file
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",  -- Only match Go files
-  callback = ColorMyGoLang
-})
-
--- Colortheme changes for go file
-vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "typescript" },  -- Only match TS/JS files
   callback = ColorMyWebDev,
 })
 
 vim.cmd("highlight @variable gui=none") -- variable should not be italic
-vim.cmd("highlight @variable.parameter gui=none") -- params should not be italic
-
 -- Consistent screen color approx active and inactive windows.
 vim.cmd("highlight NormalNC guibg=NONE ctermbg=NONE")
+
+vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" }) -- Deep black
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "#101010" }) -- Slight shine
+
+-- Curosr shape
+vim.opt.guicursor = "n-v-i-c:block-Cursor"
 
 vim.opt.termguicolors = true -- bufferline
 require("bufferline").setup {} -- bufferline
