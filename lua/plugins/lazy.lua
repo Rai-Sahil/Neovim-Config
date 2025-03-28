@@ -72,12 +72,6 @@ require('lazy').setup({
     end
   },
 
-{
-  "folke/tokyonight.nvim",
-  lazy = false,
-  priority = 1000,
-  opts = {},
-},
   -- Autopair
   {
     "windwp/nvim-autopairs",
