@@ -22,3 +22,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Remap to keep yanked item in clipboard even after using it
 vim.keymap.set("x", "<C-p>", "\"_dP")
+
+vim.o.fillchars = "vert:│"
+
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffffff", bg = "NONE" })
+

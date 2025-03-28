@@ -23,6 +23,10 @@ vim.opt.sidescrolloff = 8 -- min number of columns to keep above and below the c
 
 vim.opt.updatetime = 50 -- Faster update time
 
+vim.opt.showmode = false -- Hide mode
+vim.opt.laststatus = 3
+vim.opt.fillchars:append("eob: ") -- Hide ~
+
 vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
   pattern = "*.py",
   callback = function()

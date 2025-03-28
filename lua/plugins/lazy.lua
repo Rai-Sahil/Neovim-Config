@@ -24,23 +24,60 @@ require('lazy').setup({
         panel = "#101010", -- Slightly lighter for contrast
     },
     highlight_groups = {
-        Normal = { bg = "#000000" },
-        NormalNC = { bg = "#000000" },
         FloatBorder = { bg = "#000000", fg = "#2a2a2a" },
+          styles = { italic = false },
+            palette = {
+        dawn = {
+          no_bg = '#faf4ed',
+        },
+        moon = {
+          gold = '#f6d5a7',
+          foam = '#a1d1da',
+          iris = '#d9c7ef',
+          rose = '#ebbcba',
+          pine = '#437e91',
+          no_bg = '#000000',
+        },
+      },
+      highlight_groups = {
+        Normal = { bg = 'no_bg' },
+        Directory = { fg = 'foam', bold = false },
+        StatusLine = { bg = 'surface', fg = 'subtle' },
+        StatusLineTerm = { link = 'StatusLine' },
+        StatusLineNC = { link = 'StatusLine' },
+        --- gitsigns
+        StatusLineGitSignsAdd = { bg = 'surface', fg = 'pine' },
+        StatusLineGitSignsChange = { bg = 'surface', fg = 'gold' },
+        StatusLineGitSignsDelete = { bg = 'surface', fg = 'rose' },
+        --- diagnostics
+        StatusLineDiagnosticSignError = { bg = 'surface', fg = 'love' },
+        StatusLineDiagnosticSignWarn = { bg = 'surface', fg = 'gold' },
+        StatusLineDiagnosticSignInfo = { bg = 'surface', fg = 'foam' },
+        StatusLineDiagnosticSignHint = { bg = 'surface', fg = 'iris' },
+        StatusLineDiagnosticSignOk = { bg = 'surface', fg = 'pine' },
+      },
+
+
     },
     config = function()
       require('rose-pine').setup({
         disable_background = false,
         variant = 'main',
       })
-
       -- Set transparency for Normal and Floating windows
       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
       vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
-  
+
     end
   },
+
+{
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {},
+},
   -- Autopair
   {
     "windwp/nvim-autopairs",
@@ -84,9 +121,9 @@ require('lazy').setup({
 
 	-- Telescope
 	{
-    'nvim-telescope/telescope.nvim', tag = '0.1.8',
-    dependencies = { 'nvim-lua/plenary.nvim' }
-  },
+	   'nvim-telescope/telescope.nvim', tag = '0.1.8',
+	   dependencies = { 'nvim-lua/plenary.nvim' }
+	 },
 
 	-- File tree
 	{
@@ -166,6 +203,10 @@ require('lazy').setup({
     'williamboman/mason.nvim',
     lazy = false,
     config = true,
+  },
+
+  {
+    'Yazeed1s/minimal.nvim'
   },
 
   -- Autocompletion
@@ -248,7 +289,6 @@ require('lazy').setup({
           'clangd', -- c
           'vtsls', -- javascript
           'ast_grep' -- jsx
-
         },
         handlers = {
           lsp_zero.default_setup,

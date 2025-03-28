@@ -1,4 +1,4 @@
-vim.cmd("colorscheme rose-pine-main") -- colorscheme
+vim.cmd("colorscheme rose-pine-moon") -- colorscheme
 
   -- Use matchadd to highlight @param
   vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
@@ -35,13 +35,19 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.cmd("highlight @variable gui=none") -- variable should not be italic
 -- Consistent screen color approx active and inactive windows.
-vim.cmd("highlight NormalNC guibg=NONE ctermbg=NONE")
 
-vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" }) -- Deep black
+vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" }) -- Deep black
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "#101010" }) -- Slight shine
 
+vim.cmd("hi! Normal ctermbg=NONE guibg=NONE") -- Taking care of transparent window.
+vim.cmd("highlight NormalNC guibg=NONE ctermbg=NONE") -- Keep inactive window transparent too.
 -- Curosr shape
 vim.opt.guicursor = "n-v-i-c:block-Cursor"
 
-vim.opt.termguicolors = true -- bufferline
 require("bufferline").setup {} -- bufferline
+
+-- Show diagnotics virtual line
+vim.diagnostic.config({
+  virtual_text = false,
+  virtual_lines = true,
+})
